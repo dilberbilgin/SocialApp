@@ -18,6 +18,6 @@ public class PostResponseDto {
     String username;
     String title;
     String postText;
-//    List<Like> postLikes;
-    // TODO: 1.09.2024 postLikes potresponse icin bakilacak. 
+    List<Like> likes;
+    // TODO: 1.09.2024 postLikes potresponse icin bakilacak.
 }

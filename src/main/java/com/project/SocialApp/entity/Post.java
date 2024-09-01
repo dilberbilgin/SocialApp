@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "POSTS")
 @Getter
@@ -29,6 +31,9 @@ public class Post extends BaseEntity {
 
     @Column(name = "POST_TEXT", nullable = false, length = 250)
     private String postText;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes;
 
 
 }
