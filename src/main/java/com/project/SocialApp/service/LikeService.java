@@ -6,6 +6,7 @@ import com.project.SocialApp.dto.response.LikeResponseDto;
 import com.project.SocialApp.entity.Like;
 import com.project.SocialApp.entity.Post;
 import com.project.SocialApp.entity.User;
+import com.project.SocialApp.exception.BusinessException;
 import com.project.SocialApp.general.BaseService;
 import com.project.SocialApp.mapper.LikeMapper;
 import com.project.SocialApp.mapper.PostMapper;
@@ -38,6 +39,12 @@ public class LikeService extends BaseService<Like, LikeRepository> {
     }
 
     public LikeResponseDto createOneLike(LikeCreateRequest request) {
+
+        boolean exists = repository.existsByUserIdAndPostId(request.getUserId(), request.getPostId());
+        if (exists) {
+            throw new BusinessException("You have already liked this post.");
+        }
+
         User user = userService.findByIdWithControl(request.getUserId());
         Post post = postService.findByIdWithControl(request.getPostId());
 

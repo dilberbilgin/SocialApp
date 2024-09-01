@@ -19,5 +19,5 @@ public class PostResponseDto {
     String title;
     String postText;
     List<Like> likes;
-    // TODO: 1.09.2024 postLikes potresponse icin bakilacak.
+
 }
