@@ -9,10 +9,12 @@ import com.project.SocialApp.entity.Post;
 import com.project.SocialApp.general.RestResponse;
 import com.project.SocialApp.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -22,8 +24,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<PostResponseDto>>> getAllPosts() {
-        List<PostResponseDto> allPosts = postService.getAllPosts();
+    public ResponseEntity<RestResponse<List<PostResponseDto>>> getAllPosts(@RequestParam Optional<Long> userId) {
+        List<PostResponseDto> allPosts = postService.getAllPosts(userId);
         return ResponseEntity.ok(RestResponse.of(allPosts));
     }
 

@@ -1,0 +1,11 @@
+## Temel olarak OpenJDK kullanıyoruz
+#FROM openjdk:21-jdk-slim
+#
+## Uygulama JAR dosyasını /app dizinine kopyalıyoruz
+#COPY target/socialapp.jar /app/socialapp.jar
+#
+## Çalıştırma komutu
+#ENTRYPOINT ["java", "-jar", "/app/socialapp.jar"]
+#
+## Varsayılan portu açıyoruz
+#EXPOSE 8081

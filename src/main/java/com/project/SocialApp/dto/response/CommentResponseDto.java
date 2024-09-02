@@ -12,6 +12,6 @@ import lombok.Setter;
 public class CommentResponseDto {
     Long id;
     Long userId;
-    String userName;
+    String username;
     String commentText;
 }

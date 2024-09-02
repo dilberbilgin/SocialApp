@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,8 +26,13 @@ public class PostService extends BaseService<Post, PostRepository> {
         this.userService = userService;
     }
 
-    public List<PostResponseDto> getAllPosts() {
-        List<Post> posts = repository.findAll();
+    public List<PostResponseDto> getAllPosts(Optional<Long> userId) {
+        List<Post> posts;
+        if (userId.isPresent()) {
+            posts = repository.findAllByUserId(userId.get());
+        } else {
+            posts = repository.findAll();
+        }
         return  PostMapper.INSTANCE.postsToPostResponseDtos(posts);
     }
 
@@ -42,7 +48,6 @@ public class PostService extends BaseService<Post, PostRepository> {
     public PostResponseDto getPostById(Long id) {
         Post post = findByIdWithControl(id);
         return PostMapper.INSTANCE.postToPostResponseDto(post);
-
     }
 
     public PostResponseDto updatePost(Long id, PostUpdateRequest request) {
@@ -55,4 +60,6 @@ public class PostService extends BaseService<Post, PostRepository> {
     public void deleteOnePostById(Long id) {
         repository.deleteById(id);
     }
+
+
 }

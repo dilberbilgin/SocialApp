@@ -31,6 +31,12 @@ public class CommentController {
         return ResponseEntity.ok(RestResponse.of(commentResponseDto));
     }
 
+    @GetMapping("/posts/{postId}/comments")
+    public ResponseEntity<RestResponse<List<CommentResponseDto>>> getCommentsByPostId(@PathVariable Long postId) {
+        List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
+        return ResponseEntity.ok(RestResponse.of(comments));
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<CommentResponseDto>> createComment(@RequestBody CommentCreateRequest request) {
         CommentResponseDto commentResponseDto = commentService.createComment(request);

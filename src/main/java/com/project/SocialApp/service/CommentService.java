@@ -8,9 +8,12 @@ import com.project.SocialApp.entity.Comment;
 import com.project.SocialApp.entity.Post;
 import com.project.SocialApp.entity.User;
 import com.project.SocialApp.general.BaseService;
+import com.project.SocialApp.general.RestResponse;
 import com.project.SocialApp.mapper.CommentMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class CommentService extends BaseService<Comment, CommentRepository> {
 
     public List<CommentResponseDto> getAllComments() {
         List<Comment> comments = repository.findAll();
-        return CommentMapper.INSTANCE.commentsToCommentResponsDtos(comments);
+        return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
     }
 
     public CommentResponseDto createComment(CommentCreateRequest request) {
@@ -56,5 +59,10 @@ public class CommentService extends BaseService<Comment, CommentRepository> {
 
     public void deleteOneCommentById(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<CommentResponseDto> getCommentsByPostId(Long postId) {
+        List<Comment> comments = repository.findByPostId(postId);
+        return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
     }
 }

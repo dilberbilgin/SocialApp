@@ -1,6 +1,8 @@
 # SocialApp
 
-**SocialApp**: A social media application where users can share posts, like posts, and leave comments. The project is a backend application developed with Spring Boot and provides basic social media functionalities such as user, post, and like management.
+**SocialApp**: A social media application where users can share posts, like posts, 
+and leave comments. The project is a backend application developed with Spring Boot and 
+provides basic social media functionalities such as user, post, and like management.
 
 ## Features
 
@@ -43,7 +45,8 @@
 - **MapStruct**
 - **Lombok**
 
-These technologies support key factors such as performance, efficiency, and sustainability in the project.
+These technologies support key factors such as performance, 
+efficiency, and sustainability in the project.
 
 
 
