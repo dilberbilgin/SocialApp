@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/comments")
@@ -20,21 +21,21 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<CommentResponseDto>>> getAllComments() {
-        List<CommentResponseDto> allComments = commentService.getAllComments();
+    public ResponseEntity<RestResponse<List<CommentResponseDto>>> getAllComments(@RequestParam Optional<Long> postId ) {
+        List<CommentResponseDto> allComments = commentService.getAllComments(postId);
         return ResponseEntity.ok(RestResponse.of(allComments));
     }
+
+//    @GetMapping("/posts/{postId}/comments")
+//    public ResponseEntity<RestResponse<List<CommentResponseDto>>> getCommentsByPostId(@PathVariable Long postId) {
+//        List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
+//        return ResponseEntity.ok(RestResponse.of(comments));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<RestResponse<CommentResponseDto>> getCommentById(@PathVariable Long id) {
         CommentResponseDto commentResponseDto = commentService.getCommentById(id);
         return ResponseEntity.ok(RestResponse.of(commentResponseDto));
-    }
-
-    @GetMapping("/posts/{postId}/comments")
-    public ResponseEntity<RestResponse<List<CommentResponseDto>>> getCommentsByPostId(@PathVariable Long postId) {
-        List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
-        return ResponseEntity.ok(RestResponse.of(comments));
     }
 
     @PostMapping
@@ -53,5 +54,4 @@ public class CommentController {
     public void deleteOneComment(@PathVariable Long id) {
         commentService.deleteOneCommentById(id);
     }
-
 }

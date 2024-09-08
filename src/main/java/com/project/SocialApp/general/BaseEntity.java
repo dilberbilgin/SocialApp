@@ -1,7 +1,6 @@
 package com.project.SocialApp.general;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class BaseEntity implements BaseModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Embedded
     private BaseAdditionalFields baseAdditionalFields;
-
-
 }

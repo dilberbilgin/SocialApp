@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-
 public class PostService extends BaseService<Post, PostRepository> {
 
     private final UserService userService;
@@ -36,17 +35,16 @@ public class PostService extends BaseService<Post, PostRepository> {
         return  PostMapper.INSTANCE.postsToPostResponseDtos(posts);
     }
 
+    public PostResponseDto getPostById(Long id) {
+        Post post = findByIdWithControl(id);
+        return PostMapper.INSTANCE.postToPostResponseDto(post);
+    }
 
     public PostResponseDto createPost(PostCreateRequest request) {
         User user = userService.findByIdWithControl(request.getUserId());
         Post post = PostMapper.INSTANCE.postCreateRequestToPost(request);
         post.setUser(user); //kullaniciyi posta ata
         post = save(post); // veri tabanina kaydet
-        return PostMapper.INSTANCE.postToPostResponseDto(post);
-    }
-
-    public PostResponseDto getPostById(Long id) {
-        Post post = findByIdWithControl(id);
         return PostMapper.INSTANCE.postToPostResponseDto(post);
     }
 
@@ -60,6 +58,4 @@ public class PostService extends BaseService<Post, PostRepository> {
     public void deleteOnePostById(Long id) {
         repository.deleteById(id);
     }
-
-
 }

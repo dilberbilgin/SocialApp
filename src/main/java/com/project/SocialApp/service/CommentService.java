@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,9 +31,29 @@ public class CommentService extends BaseService<Comment, CommentRepository> {
         this.postService = postService;
     }
 
-    public List<CommentResponseDto> getAllComments() {
-        List<Comment> comments = repository.findAll();
+    public List<CommentResponseDto> getAllComments(Optional<Long> postId) {
+        List<Comment> comments;
+        if (postId.isPresent()) {
+            comments = repository.findAllCommentsByPostId(postId.get());
+        } else {
+            comments = repository.findAll();
+        }
         return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
+    }
+
+//    public List<CommentResponseDto> getCommentsByPostId(Long postId) {
+//        List<Comment> comments = repository.findByPostId(postId);
+//        return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
+//    }
+
+//    public List<CommentResponseDto> getAllComments() {
+//        List<Comment> comments = repository.findAll();
+//        return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
+//    }
+
+    public CommentResponseDto getCommentById(Long id) {
+        Comment comment = findByIdWithControl(id);
+        return CommentMapper.INSTANCE.commentToCommentResponsDto(comment);
     }
 
     public CommentResponseDto createComment(CommentCreateRequest request) {
@@ -45,11 +66,6 @@ public class CommentService extends BaseService<Comment, CommentRepository> {
         return CommentMapper.INSTANCE.commentToCommentResponsDto(comment);
     }
 
-    public CommentResponseDto getCommentById(Long id) {
-        Comment comment = findByIdWithControl(id);
-        return CommentMapper.INSTANCE.commentToCommentResponsDto(comment);
-    }
-
     public CommentResponseDto updateComment(Long id, CommentUpdateRequest request) {
         Comment comment = findByIdWithControl(id);
         CommentMapper.INSTANCE.updateCommentFromRequest(request, comment);
@@ -59,10 +75,5 @@ public class CommentService extends BaseService<Comment, CommentRepository> {
 
     public void deleteOneCommentById(Long id) {
         repository.deleteById(id);
-    }
-
-    public List<CommentResponseDto> getCommentsByPostId(Long postId) {
-        List<Comment> comments = repository.findByPostId(postId);
-        return CommentMapper.INSTANCE.commentsToCommentResponseDtos(comments);
     }
 }
