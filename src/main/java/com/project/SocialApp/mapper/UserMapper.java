@@ -25,5 +25,4 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     void updateUserFields(UserUpdateRequest request, @MappingTarget User user);
 
-
 }

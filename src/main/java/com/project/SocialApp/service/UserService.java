@@ -8,6 +8,7 @@ import com.project.SocialApp.entity.User;
 import com.project.SocialApp.general.BaseService;
 import com.project.SocialApp.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +18,11 @@ import java.util.List;
 
 public class UserService extends BaseService<User, UserRepository> {
 
-    protected UserService(UserRepository repository) {
+    private final PasswordEncoder passwordEncoder;
+
+    protected UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         super(repository);
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserResponseDto> getAllUsers() {
@@ -30,7 +34,6 @@ public class UserService extends BaseService<User, UserRepository> {
         User user = UserMapper.INSTANCE.userCreateRequestToUser(request); // userCreaterequesti User'a donusturme
         user = save(user);// user'i veri tabanina kaydetme
         return UserMapper.INSTANCE.userToUserDto(user); //kaydedilen user userResponceDtoya donusturme
-
     }
 
     public UserResponseDto updateUser(Long id, UserUpdateRequest request) {
@@ -53,4 +56,29 @@ public class UserService extends BaseService<User, UserRepository> {
 //        repository.delete(user);
 //    }
     }
+
+    public User getOneUserByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
+
+    public User saveOneUser(User newUser) {
+        return save(newUser);
+    }
+
+
+
+//    public UserResponseDto saveOneUser(UserCreateRequest request) {
+//        // DTO'dan User entity'sine dönüştür
+//        User user = UserMapper.INSTANCE.userCreateRequestToUser(request);
+//
+//        // Şifreyi hashle
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//
+//        // User entity'sini veri tabanına kaydet
+//        user = repository.save(user);
+//
+//        // Kaydedilen User entity'sini DTO'ya dönüştür
+//        return UserMapper.INSTANCE.userToUserDto(user);
+//    }
 }
